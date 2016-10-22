@@ -545,3 +545,4 @@ Class isimleri kesinlikle büyük harfle başlamalı ve tekil olmalıdır.
 
 Sabitler genellikle büyük hafrle yazılırlar. Örneğin; MAX_OVERFLOW ve TOTAL.
 # DjangoCodingStyle
+# DjangoCodingStyle
