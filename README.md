@@ -1,548 +1,214 @@
-                                                            # PYTHON CODING STYLE
+                                           DJANGO CODING STYLE
 
-#GİRİNTİLEME
+#IMPORTS
 
-Girinti seviyesinin başına 4 boşluk bırakmalıyız. Argümanları yazarken satır atlarsak kodun anlaşılabilir olması açısından
-argümanları aynı hizada yazmalıyız.
+future, standard library, third-party libraries, diğer Django bileşenleri, local Django bileşenleri,
 
-#Doğru kullanım, açılış sınırlayıcı ile aynı hizada olmasıdır.
+try/except'ler önem sıralarına göre aşağıdaki gibi kullanılmalıdır. Mümkün olduğunca alfabetik sıraya
 
-foo = long_function_name(var_one, var_two,
-
-                        var_three, var_four)
+göre yazmaya dikkat etmelisiniz.
 
 
-print fonksiyonunu ayırt edebilmek için daha fazla girinti kullanmalıyız.
+# future
+
+    from __future__ import unicode_literals
+    
+
+# standard library
+
+    import json
+    
+    from itertools import chain
+    
+
+# third-party
+
+    import bcrypt
+    
+
+# Django
+
+    from django.http import Http404
+    
+    from django.http.response import (
+    
+       Http404, HttpResponse, HttpResponseNotAllowed, StreamingHttpResponse,
+       
+       cookie,
+       
+    )
+    
+
+# local Django
+
+    from .models import LogEntry
+    
+
+# try/except
+
+    try:
+    
+        import pytz
+        
+    except ImportError:
+    
+        pytz = None
+        
+
+    CONSTANT = 'foo'
 
 
-  def long_function_name(
-
-      var_one, var_two, var_three,
-
-      var_four):
-
-   print(var_one)
+    class Example(object):
+    
+       # ...
 
 
-Girinti seviyemiz her satırda aynı olmalıdır.
+#TEMPLATE STYLE
 
 
-    foo = long_function_name(
+Template-lerde, kıvırcık parantez ve etiket içerikleri arasında bir boşluk bırakmalıyız.
 
-        var_one, var_two,
 
-        var_three, var_four)
+#Doğru kullanım:
 
+    {{ foo }}
+    
 
 #Yanlış kullanım:
 
-Dikey hizalama kullanmadığımızda argümanlar ilk satırda yasaklanır.
+    {{foo}}
+    
 
+#VİEW STYLE
 
-  foo = long_function_name(var_one, var_two,
 
-      var_three, var_four)
-
-
-Girinti olarak gerekli olan girintiyi ayırt edemediğimiz durumlar.
-
-
-    def long_function_name(
-
-        var_one, var_two, var_three,
-
-        var_four):
-
-        print(var_one)
-
-
-#İsteğe bağlı 4-boşluk kuralı:
-
-
-4 boşluk yerine daha az boşlukta bırakabiliriz.
-
-
-    foo = long_function_name(
-
-      var_one, var_two,
-
-      var_three, var_four)
-
-
-if kullanırken ekstra boşluk kullanmayabiliriz.
-
-
-    if (this_is_one_thing and
-
-        that_is_another_thing):
-
-      do_something()
-
-
-Yorum satırı eklerken kullanmayabiliriz.
-
-
-    if (this_is_one_thing and
-
-        that_is_another_thing):
-
-        do_something()
-
-
-Koşullu devamlarda girinti eklemeliyiz.
-
-
-if (this_is_one_thing
-
-and that_is_another_thing):
-
-do_something()
-
-
-Parantez kullanım şekli aşağıdaki gibi olabilir.
-
-
-my_list = [
-
-1, 2, 3,
-
-4, 5, 6,
-
-]
-
-result = some_function_that_takes_arguments(
-
-'a', 'b', 'c',
-
-'d', 'e', 'f',
-
-)
-
-
-Ya da aşağıdaki şekilde:
-
-
-my_list = [
-
-1, 2, 3,
-
-4, 5, 6,
-
-]
-
-result = some_function_that_takes_arguments(
-
-'a', 'b', 'c',
-
-'d', 'e', 'f',
-
-)
-
-
-#Operatörleri kullanırken
-
-
-#Doğru kullanım şekli:
-
-income = (gross_wages
-
-+ taxable_interest
-
-+ (dividends - qualified_dividends)
-
-- ira_deduction
-
-- student_loan_interest)
-
-
-#Yanlış kullanım şekli:
-
-income = (gross_wages +
-
-taxable_interest +
-
-(dividends - qualified_dividends) -
-
-ira_deduction -
-
-student_loan_interest)
-
-
-#IMPORT İŞLEMİ
-
-
-Modülleri aynı satırda değilde farklı satırlarda import etmeliyiz.
+View-lerde view fonksiyonunun ilk parametresi request ile çağırılmalıdır.
 
 
 #Doğru kullanım:
 
-import os
-
-import sys
-
+    def my_view(request, foo):
+    
+        # ...
+        
 
 #Yanlış kullanım:
 
-import sys, os
-
-from .. import .. yapısında aynı satırda yazabiliriz.
-
-from subprocess import Popen, PIPE
+    def my_view(req, foo):
+    
+       # ...
 
 
-#import ederken aşağıdaki sıralamayı kullanmalıyız.
+#MODEL STYLE
 
 
-1.standard library imports
-
-2.related third party imports
-
-3.local application/library specific imports
-
-
-Bu şekilde kodlarınız daha okunabilir olacaktır.
-
-
-#Örnek olarak:
-
-import mypkg.sibling
-
-from mypkg import sibling
-
-from mypkg.sibling import example
-
-
-#Module Level Dunder Names
-
-Dunder name-leri kullanmak için from __future__ import .. kullanırız. (Dunder name-ler __ ile başlar __ ile biter.Dikkat edin iki alt tire kullanılır.)
-
-
-#Örnek olarak:
-
-from __future__ import barry_as_FLUFL
-
-__all__ = ['a', 'b', 'c']
-
-__version__ = '0.1'
-
-__author__ = 'Cardinal Biggles'
-
-
-import os
-import sys
-
-#Pet Peeves
-
-Aşağıdaki durumlarda gereksiz boşlukardan kaçınmalıyız...
-
-
-1) Parantez içinde parantez varsa:
+Field nameler kullanılırken küçük harf ve '_' kullanmalıyız. Büyük harf kullanmamaya
+dikkat etmeliyiz.
 
 
 #Doğru kullanım:
 
-spam(ham[1], {eggs: 2})
-
+    class Person(models.Model):
+    
+        first_name = models.CharField(max_length=20)
+        
+        last_name = models.CharField(max_length=40)
+        
 
 #Yanlış kullanım:
 
-spam( ham[ 1 ], { eggs: 2 } )
+    class Person(models.Model):
+    
+        FirstName = models.CharField(max_length=20)
+        
+        Last_Name = models.CharField(max_length=40)
+       
 
-
-2) Virgül, noktalı virgül ya da iki noktadan önce:
-
-
-#Doğru kullanım:
-
-if x == 4: print x, y; x, y = y, x
-
-
-#Yanlış kullnaım:
-
-if x == 4 : print x , y ; x , y = y , x
-
-
-3) Operatör kullanılırken:
-
-#Doğru kullanım:
-
-ham[1:9], ham[1:9:3], ham[:9:3], ham[1::3], ham[1:9:]
-
-ham[lower:upper], ham[lower:upper:], ham[lower::step]
-
-ham[lower+offset : upper+offset]
-
-ham[: upper_fn(x) : step_fn(x)], ham[:: step_fn(x)]
-
-ham[lower + offset : upper + offset]
-
-
-#Yanlış kullanım:
-
-ham[lower + offset:upper + offset]
-
-ham[1: 9], ham[1 :9], ham[1:9 :3]
-
-ham[lower : : upper]
-
-ham[ : upper]
-
-
-4) Fonksiyon çağırırken kullanılan parantezlerde:
-
-#Doğru kullanım:
-
-spam(1)
-
-
-#Yanlış kullanım:
-
-spam (1)
-
-
-5) Slicing ya da indexleme başlamadan açılan parantezlerden önce:
-
-#Doğru kullanım:
-
-dct['key'] = lst[index]
-
-
-#Yanlış kullanım:
-
-dct ['key'] = lst [index]
-
-
-6) Atama operatörlerini hizalamak için:
-
-#Doğru kullnaım:
-
-x = 1
-
-y = 2
-
-long_variable = 3
-
-
-#Yanlış kullanım:
-
-x             = 1
-
-y             = 2
-
-long_variable = 3
-
-
-#Diğer Öneriler
-
-Farklı operatörleri bir arada kullanırken düşük önceliğe sahip operatörler arasında birer boşluk bırakmalıyız.
+Field-ları tanımladıktan sonra bir boşluk bırakıp class Meta sınıfını yazmalıyız.
 
 
 #Doğru kullanım:
 
-i = i + 1
+    class Person(models.Model):
+    
+       first_name = models.CharField(max_length=20)
+       
+        last_name = models.CharField(max_length=40)
 
-submitted += 1
 
-x = x*2 - 1
+        class Meta:
+        
+           verbose_name_plural = 'people'
+           
 
-hypot2 = x*x + y*y
+#Yanlış kullanım
 
-c = (a+b) * (a-b)
+    class Person(models.Model):
+    
+        first_name = models.CharField(max_length=20)
+        
+        last_name = models.CharField(max_length=40)
+        
+        class Meta:
+        
+           verbose_name_plural = 'people'
+           
 
+#Aşağıdaki kullanım şeklide yanlıştır.
 
-#Yanlış kullanım:
+    class Person(models.Model):
+    
+        class Meta:
+        
+           verbose_name_plural = 'people'
+           
 
-i=i+1
+       first_name = models.CharField(max_length=20)
+       
+       last_name = models.CharField(max_length=40)
+       
 
-submitted +=1
+Eğer choices belirli bir model alanı için tanımlanmışsa, model üzerinde bir sınıf
+özelliği olarak büyük harfle tanımlayıp choice içinde tuple olarak açıklayabiliriz.
 
-x = x * 2 - 1
 
-hypot2 = x * x + y * y
+    class MyModel(models.Model):
+    
+        DIRECTION_UP = 'U'
+        
+        DIRECTION_DOWN = 'D'
+        
+        DIRECTION_CHOICES = (
+        
+             (DIRECTION_UP, 'Up'),
+             
+             (DIRECTION_DOWN, 'Down'),
+             
+         )
+         
 
-c = (a + b) * (a - b)
+#django.conf.settings Kullanımı
 
 
-Varsayılan bir parametre değerini belirtirken kullanılan '=' operatöründe boşluk kullanmamalıyız.
+Modülleri django.conf.settings-in üstüne yazmamalıyız.
 
 
-#Doğru kullanım:
+Ayarlarımızı aşağıdaki gibi elle yapabiliriz.
 
-def complex(real, imag=0.0):
+    from django.conf import settings
 
-return magic(r=real, i=imag)
+    settings.configure({}, SOME_SETTING='foo')
+    
 
+Eğer bir ayara settings.conf satırından önce erişilirse bu ayar işe yaramaz.
 
-#Yanlış kullanım:
+    from django.conf import settings
+    
+    from django.urls import get_callable
+    
 
-def complex(real, imag = 0.0):
+    default_foo_view = get_callable(settings.FOO_VIEW)
+    
 
-return magic(r = real, i = imag)
-
-
-#'->' ifadesini kullanırken her zaman boşluk kullanmalıyız.
-
-
-#Doğru kullanım:
-
-def munge(input: AnyStr): ...
-
-def munge() -> AnyStr: ...
-
-
-#Yanlış kullanım:
-
-def munge(input:AnyStr): ...
-
-def munge()->PosInt: ...
-
-
-#Default değer atanırken boşluk kullanmalıyız.
-
-
-#Doğru kullanım:
-
-def munge(sep: AnyStr = None): ...
-
-def munge(input: AnyStr, sep: AnyStr = None, limit=1000): ...
-
-
-#Yanlış kullanım:
-
-def munge(input: AnyStr=None): ...
-
-def munge(input: AnyStr, limit = 1000): ...
-
-
-#Birleşik ifadeler genellikle tavsiye edilmez.
-
-
-#Doğru kullanım:
-
-if foo == 'blah':
-
-do_blah_thing()
-
-do_one()
-
-do_two()
-
-do_three()
-
-
-#Tercihen:
-
-if foo == 'blah': do_blah_thing()
-
-do_one(); do_two(); do_three()
-
-
-if/for/while kullanılırken dikkat etmemiz gereken noktalar:
-
-
-#Tercihen:
-
-if foo == 'blah': do_blah_thing()
-
-for x in lst: total += x
-
-while t < 10: t = delay()
-
-
-#Kesinlikle kullanmamamız gereken yapı:
-
-if foo == 'blah': do_blah_thing()
-
-else: do_non_blah_thing()
-
-
-try: something()
-
-finally: cleanup()
-
-
-do_one(); do_two(); do_three(long, argument,
-
-list, like, this)
-
-
-if foo == 'blah': one(); two(); three()
-
-
-#Block comment-ler '#' ifadesi ile başlamalıdır.
-
-#Inline comment-larda
-
-
-#Doğru kullanım:
-
-x = x + 1                 # Compensate for border
-
-
-#Yanlış kullanım:
-
-x = x + 1                 # Increment x
-
-
-Tüm public modüller, fonksiyonlar, sınıflar ve metodlar için Docstring-ler yazmalıyız.
-
-#Docstring-ler """ ile başlar """ ile biter.
-
-"""Return a foobang
-
-
-Optional plotz says to frobnicate the bizbaz first.
-
-"""
-
-
-Type değişkenlerinde PEP 484'e göre kısa isimler kullanmalıyız. Type değişkenlerine genellikle _ ile başlayan son ekler eklenir.
-
-
-#Örnek olarak:
-
-from typing import TypeVar
-
-
-VT_co = TypeVar('VT_co', covariant=True)
-
-KT_contra = TypeVar('KT_contra', contravariant=True)
-
-
-#is not operatörü not ... is den daha kullanışlıdır.
-
-
-#Doğru kullanım:
-
-if foo is not None:
-
-
-#Tercihen:
-
-if not foo is None:
-
-
-#Tanımlama işlemlerinde lambda yerine def fonksiyonunu kullanmalıyız.
-
-
-#Doğru kullanım:
-
-def f(x): return 2*x
-
-
-#Yanlış kullanım:
-
-f = lambda x: 2*x
-
-
-Fonksiyon isinmleri küçük harfli _ ile ayrılmış sözcüklerden oluşmalıdır. Örneğin; long_function_name
-
-Instance metodların ilk argümanı genellikle 'self' olarak kullanılır.
-
-Class metodların ilk argümanı genellikle 'cls' olarak kullanılır.
-
-Class isimleri kesinlikle büyük harfle başlamalı ve tekil olmalıdır.
-
-Sabitler genellikle büyük hafrle yazılırlar. Örneğin; MAX_OVERFLOW ve TOTAL.
-# DjangoCodingStyle
-# DjangoCodingStyle
+Yukarıdaki karmaşıklığı önlemek için django.utils.functional.LazyObject,
+django.utils.functional.lazy() ya da lambda kullanmalıyız.
