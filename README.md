@@ -32,9 +32,9 @@ göre yazmaya dikkat etmelisiniz.
     
     from django.http.response import (
     
-       Http404, HttpResponse, HttpResponseNotAllowed, StreamingHttpResponse,
+        Http404, HttpResponse, HttpResponseNotAllowed, StreamingHttpResponse,
        
-       cookie,
+        cookie,
        
     )
     
@@ -131,7 +131,7 @@ Field-ları tanımladıktan sonra bir boşluk bırakıp class Meta sınıfını 
 
     class Person(models.Model):
     
-       first_name = models.CharField(max_length=20)
+        first_name = models.CharField(max_length=20)
        
         last_name = models.CharField(max_length=40)
 
